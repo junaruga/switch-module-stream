@@ -1,17 +1,39 @@
 dist: xenial
 language: bash
+env:
+  global:
+    - TEST_CMD='cat /etc/redhat-release'
+    - DOCKER='docker'
 
 .com.github.junaruga.switch-module-stream-matrix-definitions:
   - &test_in_container
     install: |
-      docker build --rm -t test/fedora -f ci/Dockerfile-fedora .
+      "${DOCKER}" build --rm -t test/fedora -f ci/Dockerfile-fedora .
     script: |
-      docker run --rm -t test/fedora "${TEST_CMD:-uname}"
+      "${DOCKER}" run --rm -t test/fedora "${TEST_CMD}"
+  - &podman
+    addons:
+      apt:
+        packages:
+          - podman
+        sources:
+          # podman and some container tools.
+          # https://github.com/containers/libpod/blob/master/install.md
+          - sourceline: "ppa:projectatomic/ppa"
+    before_install:
+      - podman --version
+      - podman version
+      - podman info --debug
 
 matrix:
   include:
-    - name: ruby
+    - name: ruby-docker
       <<: *test_in_container
+    - name: ruby-podman
+      env:
+        - DOCKER='podman'
+      <<: *test_in_container
+      <<: *podman
   allow_failures:
   fast_finish: true
 script:
