@@ -35,8 +35,10 @@ RUN script/run-install-repo.sh
 # Install current module.
 RUN yum module list "${MODULE_NAME}"
 RUN yum -y module reset "${MODULE_NAME}"
+RUN yum module list "${MODULE_NAME}"
 # Run yum moudle install considering an existance of the module profile.
 RUN script/run-module-install.sh
+RUN yum module list "${MODULE_NAME}"
 
 # Install RPM packages or language packages (in case of ruby, gem packages)
 # for testing.
@@ -62,7 +64,9 @@ RUN yum -y distro-sync
 # ====
 # Step 2: Change the active stream to the later one
 RUN yum -y module reset "${MODULE_NAME}"
+RUN yum module list "${MODULE_NAME}"
 RUN yum -y module enable "${MODULE_NAME}:${NEW_STREAM}"
+RUN yum module list "${MODULE_NAME}"
 
 # ====
 # Step 3: Synchronize installed packages to perform the change between streams
