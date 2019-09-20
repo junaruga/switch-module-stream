@@ -21,14 +21,24 @@ env:
 matrix:
   include:
     - env:
+        - BASE_IMAGE=fedora:31
         - MODULE_NAME=ruby
         - CUR_STREAM=2.5
         - NEW_STREAM=2.6
       <<: *test_in_container
     - env:
+        - BASE_IMAGE=fedora:31
         - MODULE_NAME=ruby
         - CUR_STREAM=2.6
         - NEW_STREAM=2.5
+      <<: *test_in_container
+    - env:
+        - MODULE_NAME=ruby
+        - CUR_STREAM=2.5
+        - NEW_STREAM=2.6
+        # Need to set a profile as the module does not have a default profile.
+        # https://pagure.io/releng/fedora-module-defaults/pull-request/163
+        - MODULE_PROFILE=default
       <<: *test_in_container
     # Only 1 stream is available on RHEL 8.0.
     - env:
