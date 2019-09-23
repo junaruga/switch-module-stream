@@ -65,6 +65,13 @@ matrix:
         - NEW_STREAM=5.28
         - MODULE_PROFILE=default
       <<: *test_in_container
+    - env:
+        # php module does not exist on Fedora.
+        - BASE_IMAGE=registry.access.redhat.com/ubi8:8.0
+        - MODULE_NAME=php
+        - CUR_STREAM=7.2
+        - NEW_STREAM=7.2
+      <<: *test_in_container
     - name: nginx
       env:
         - BASE_IMAGE=fedora:31
