@@ -1,5 +1,6 @@
 #!/bin/sh
 set -ex
+export PYTHON=/usr/bin/python2
 
 node --version; npm --version
 # Install npm package with C extension as local package dependency
