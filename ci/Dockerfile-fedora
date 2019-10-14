@@ -59,6 +59,12 @@ RUN script/run install-deps-user.sh
 # Step 1: Run the following command to determine if your system is prepared
 # for switching to a later stream
 USER root
+
+# The system is fully updated by following command.
+RUN yum -y update
+# By following command, it is checked that no packages installed on the system
+# are newer than the packages available in the repository.
+# The command must finish with the message "Nothing to do. Complete!"
 RUN yum -y distro-sync
 
 # ====
