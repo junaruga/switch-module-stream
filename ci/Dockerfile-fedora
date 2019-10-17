@@ -61,7 +61,11 @@ RUN script/run install-deps-user.sh
 USER root
 
 # The system is fully updated by following command.
-RUN yum -y update
+# "yum update" updates RPMs to upgraded versions.
+# "yum distro-sync" do both the updating and also do downgrading and reinstalling.
+# RUN yum -y upgrade
+RUN yum -y distro-sync
+
 # By following command, it is checked that no packages installed on the system
 # are newer than the packages available in the repository.
 # The command must finish with the message "Nothing to do. Complete!"
