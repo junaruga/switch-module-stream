@@ -64,8 +64,17 @@ USER root
 # "yum update" updates RPMs to upgraded versions.
 # "yum distro-sync" do both the updating and also do downgrading and reinstalling.
 # RUN yum -y upgrade
+
+RUN yum repolist --enabled
+# This distro-sync command installs RPMs as a possibility.
 RUN yum -y distro-sync
 
+RUN yum repolist --enabled
+# This distro-sync command installs RPMs as a possibility too.
+# Because the 1st distro-sync command updates /etc/yum.repos.d/*.repo files.
+RUN yum -y distro-sync
+
+RUN yum repolist --enabled
 # By following command, it is checked that no packages installed on the system
 # are newer than the packages available in the repository.
 # The command must finish with the message "Nothing to do. Complete!"
