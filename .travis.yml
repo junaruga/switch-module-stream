@@ -72,8 +72,7 @@ matrix:
         - CUR_STREAM=7.2
         - NEW_STREAM=7.2
       <<: *test_in_container
-    - name: nginx
-      env:
+    - env:
         - BASE_IMAGE=fedora:31
         - MODULE_NAME=nginx
         - CUR_STREAM=1.14
@@ -87,9 +86,6 @@ matrix:
         - MODULE_PROFILE=server
       <<: *test_in_container
   allow_failures:
-   # "yum module install nginx:1.14" with perl error
-   # https://bugzilla.redhat.com/show_bug.cgi?id=1752087
-    - name: nginx
   fast_finish: true
 branches:
   only:
